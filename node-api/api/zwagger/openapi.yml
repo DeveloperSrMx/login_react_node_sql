@@ -1,0 +1,76 @@
+openapi: 3.0.2
+info:
+  version: 0.1.0-rc
+  title: node-api
+  description: Login node-mysql application
+paths:
+  /api/auth/signup:
+    post:
+      summary: Create user in database, [users] table
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        201:
+          description: User successfully created
+        400:
+          description: Username or Email are already in use
+        500:
+          description: Internal error
+  /api/auth/signin:
+    post:
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Logged user succesfully
+        401:
+          description: Unauthorized user
+        404:
+          description: User not found
+        500:
+          description: Internal error
+  /api/public:
+    get:
+      summary: Shows public data when user is not logged
+      responses:
+        200:
+          description: successful request
+  /api/dashboard:
+    get:
+      summary: Shows dashboard if user is logged
+      responses:
+        200:
+          description: successful request
+        401:
+          description: Unauthorized user
+        403:
+          description: Forbidden

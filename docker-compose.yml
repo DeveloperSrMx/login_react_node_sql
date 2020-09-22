@@ -1,0 +1,58 @@
+version: "2.1"
+
+networks:
+    chresconet:
+        driver: bridge
+
+services:
+  api:
+    build:
+      context: ./node-api
+    networks:
+      - chresconet
+    ports:
+      - "3010:3010"
+    volumes:
+      - ./node-api:/usr/src/
+      - /usr/src/node_modules
+    depends_on:
+      dbmysql:
+        condition: service_healthy
+  
+  dbmysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=oysterdb
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 2s
+      timeout: 600s
+      retries: 300
+    networks:
+      - chresconet
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    volumes:
+      - ./dbmysql:/var/lib/mysql
+
+  web:
+    build:
+      context: ./react-front
+    networks:
+      - chresconet
+    ports:
+      - "3015:3000"
+    stdin_open: true
+    volumes:
+      - ./react-front:/usr/src/
+      - /usr/src/node_modules
+    depends_on:
+      - api
+    environment:
+      - REACT_APP_API_URL=http://localhost:3010/api
