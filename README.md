@@ -1,6 +1,14 @@
+## Requirements.
+
+You must install Docker if you don't have it. </br>
+For MAC:</br>
+https://hub.docker.com/editions/community/docker-ce-desktop-mac </br>
+For Windows:</br>
+https://hub.docker.com/editions/community/docker-ce-desktop-windows </br>
+
 ## Instructions for running this project locally.
 
-You must first download the project:
+Download the project:
 
 ### `git clone https://github.com/DeveloperSrMx/login_react_node_sql.git`
 
