@@ -2,7 +2,7 @@
 
 You must first download the project:
 
-### `git clone myProjectURL`
+### `git clone https://github.com/DeveloperSrMx/login_react_node_sql.git`
 
 Once downloaded you must enter the folder:
 
